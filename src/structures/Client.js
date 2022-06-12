@@ -12,8 +12,8 @@ module.exports = class extends Client {
         this.loadCommands()
     }
      
-    loadCommands(patch = 'src/commands') {
-        const categories = readdirSync(patch)
+    loadCommands(path = 'src/commands') {
+        const categories = readdirSync(path)
 
         for(const category of categories) {
             const commands = readdirSync(`${path}/${category}`)
@@ -22,7 +22,7 @@ module.exports = class extends Client {
                 const commandClass = require(join(process.cwd(), `${path}/${category}/${command}`))
                 const cmd = new (commandClass)(this)
 
-                this.commads.push(cmd)
+                this.commands.push(cmd)
                 console.log(`Comando ${cmd.name} carregado!`)
             }
         }
