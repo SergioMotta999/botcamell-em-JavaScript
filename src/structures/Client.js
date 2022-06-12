@@ -1,23 +1,29 @@
 const { Client } = require('discord.js')
 
-const { readdirSync, readdir } = require('fs')
+const { readdirSync } = require('fs')
+const { join } = require('path')
+
 
 module.exports = class extends Client {
     constructor (options){
         super(options)
 
         this.commands = []
+        this.loadCommands()
     }
      
     loadCommands(patch = 'src/commands') {
         const categories = readdirSync(patch)
 
-        for(const category of categories){
+        for(const category of categories) {
             const commands = readdirSync(`${path}/${category}`)
 
-            for(const command of commands){
-                const commandClass = require()
-                const cmd = new ()
+            for(const command of commands){   
+                const commandClass = require(join(process.cwd(), `${path}/${category}/${command}`))
+                const cmd = new (commandClass)(this)
+
+                this.commads.push(cmd)
+                console.log(`Comando ${cmd.name} carregado!`)
             }
         }
     }
