@@ -10,6 +10,7 @@ module.exports = class extends Client {
 
         this.commands = []
         this.loadCommands()
+        this.loadEvents()
     }
      
     loadCommands(path = 'src/commands') {
@@ -24,6 +25,22 @@ module.exports = class extends Client {
 
                 this.commands.push(cmd)
                 console.log(`Comando ${cmd.name} carregado!`)
+            }
+        }
+    }
+
+    loadEvents(path = 'src/events'){
+        const categories = readdirSync(path)
+
+        for(const category of categories) {
+            const events = readdirSync(`${path}/${category}`)
+
+            for(const event of events){   
+                const eventClass = require(join(process.cwd(), `${path}/${category}/${event}`))
+                const evt = new (eventClass)(this)
+
+                this.on(evt.name, evt.run)
+                console.log(`Comando ${evt.name} carregado!`)
             }
         }
     }
