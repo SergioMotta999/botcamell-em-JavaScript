@@ -1,4 +1,3 @@
-const { Interaction } = require('discord.js')
 const Command = require('../../structures/Command')
 
 module.exports = class extends Command {
@@ -10,7 +9,10 @@ module.exports = class extends Command {
     }
 
     run = (interaction)  => {
-        interaction.reply('Pong!')
+        interaction.reply({
+            content: `O ping do bot é \`${this.client.ws.ping}\` ms.`,
+            ephemeral: true 
+        })
     }
 }
 

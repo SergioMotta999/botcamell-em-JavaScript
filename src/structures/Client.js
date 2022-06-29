@@ -12,6 +12,10 @@ module.exports = class extends Client {
         this.loadCommands()
         this.loadEvents()
     }
+
+    registryCommands(){
+        this.guilds.cache.get('672569427455115323').commands.set(this.commands)
+    }
      
     loadCommands(path = 'src/commands') {
         const categories = readdirSync(path)
@@ -40,7 +44,7 @@ module.exports = class extends Client {
                 const evt = new (eventClass)(this)
 
                 this.on(evt.name, evt.run)
-                console.log(`Comando ${evt.name} carregado!`)
+                
             }
         }
     }
